@@ -6,7 +6,7 @@ for KVP in $ENV_VARS; do
   VALUE=$(echo ${KVP} | cut -d '=' -f 2-)
   if [[ "${VALUE}" == decrypt:* ]]; then
     echo "Decrypting the value of ${NAME}..."
-    export "${NAME}"=$(applause-encryption decrypt --env "${NAME}" --prefix "decrypt:")
+    export "${NAME}"=$(kms-encryption decrypt --env "${NAME}" --prefix "decrypt:")
   fi
 done
 
