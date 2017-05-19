@@ -53,7 +53,7 @@ Package is available in the PyPI repo.
 ## Use examples
 
     $ export SECRET_VALUE="This is some super secret string"  
-    $ ENCRYPTED_VALUE=$(kms-encryption encrypt --cmk-arn arn:aws:kms:us-east-1:123456789012:key/1e1a6a81-93e0-4b9a-954b-aa1234567890 --env "SECRET_VALUE" --prefix "decrypt:")
+    $ export ENCRYPTED_VALUE=$(kms-encryption encrypt --cmk-arn arn:aws:kms:us-east-1:123456789012:key/1e1a6a81-93e0-4b9a-954b-aa1234567890 --env "SECRET_VALUE" --prefix "decrypt:")
     
     $ echo $ENCRYPTED_VALUE
     decrypt:AYADeJECDnf7+NLeAVJsur5YuekAXwABABVhd3MtY3J5cHRvLXB1YmxpYy1rZXkAREFnTHdvU1h5UVJuU3FkZGNsM0N3RXVXdURma1NYSG1KZThZZE9Wck1PUUgwMWgyRVV3U2xFK0VCamx4azVsd0EzQT09AAEAB2F3cy1rbXMAS2Fybjphd3M6a21zOnVzLWVhc3QtMTo4NzM1NTkyNjkzMzg6a2V5LzFlMWE2YTgxLTkzZTAtNGI5YS05NTRiLWNjMDk4MDJiZjNjZQC4AQICAHgifue3f62DmuhKCz2j5CoqHuVBEjiKI1sGxff/ai505wFaCCPDO4Y8TrR3hoSugCfwAAAAfjB8BgkqhkiG9w0BBwagbzBtAgEAMGgGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMfcuTS3R5ZyAF1PTDAgEQgDtb+d24hym8ARlMUAjvypkzjwWCow/vFsOCNNyanBXUpeg1zUS3pm9N2jUdWUkuFthfnIYP/DKha++ntAIAAAAADAAAEACSdsPl9FNdOKFIApY/cT3N2KlcdyRqYpxio+PP/////wAAAAGN+BxTQlHfwz7vgrMAAAAL5Pu3Pkw4G13jdJiZYRHUED00JI226iC/p1xVAGgwZgIxAMk0vt2tIFpTb/YgPsTcvBVF4QYcRu28j8nONHSWLLox2DupiUuUjP5lsFHr15ENRgIxAJxEIV96k5PfFEaCIMvn83NRkXHcT9nphuOQd6FNRy0DeAuWOeApRQuZ4Ti0mVy/aA==
