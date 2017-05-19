@@ -66,5 +66,5 @@ Package is available in the PyPI repo.
     
 The library also exposes two Bash scripts helpful in automated deployments:
 
-    * `decrypt-and-start.sh` - Decrypts all the environment variables that start with `decrypt:` and saves the decrypted values in the same environment variables. Then it executes the passed parameters. This script can be used as an entrypoint in a Dockerfile.
-    * `terraform-decrypt.sh` - a script that can be used with https://www.terraform.io/docs/providers/external/data_source.html for decrypting secrets in your Terraform infrastructure definitions.
+* `decrypt-and-start.sh` - Decrypts all the environment variables that start with `decrypt:` and saves the decrypted values in the same environment variables. Then it executes the passed parameters. This script can be used as an entrypoint in a Dockerfile.
+* `terraform-decrypt.sh` - a script that can be used with https://www.terraform.io/docs/providers/external/data_source.html for decrypting secrets in your Terraform infrastructure definitions.
