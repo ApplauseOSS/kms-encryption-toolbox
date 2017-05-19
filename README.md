@@ -35,6 +35,20 @@ Package is available in the PyPI repo.
 
 ### Decrypt
 
+    $ kms-encryption decrypt --help 
+    
+    Usage: kms-encryption decrypt [OPTIONS]
+    Decrypts a base64-encoded data.
+
+    Options:
+    --data TEXT     Data to be decrypted. Use to pass it as a named argument.
+    --env TEXT      Name of an environment variable that contains data to be
+                    decrypted.
+    --profile TEXT  Name of an AWS CLI profile to be used when contacting AWS.
+    --prefix TEXT   An input prefix to be trimmed from the beginning before a
+                    value is decrypted.
+    -h, --help      Show this message and exit.
+
 
 ## Use examples
 
