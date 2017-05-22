@@ -57,7 +57,8 @@ def encrypt(cmk_arn, data, env, profile, prefix):
 @click.option('--data', 'data', envvar='DATA', help='Data to be decrypted. Use to pass it as a named argument.')
 @click.option('--env', 'env', help='Name of an environment variable that contains data to be decrypted.')
 @click.option('--profile', 'profile', default=None, help='Name of an AWS CLI profile to be used when contacting AWS.')
-@click.option('--prefix', 'prefix', default='', help='An input prefix to be trimmed from the beginning before a value is decrypted.')
+@click.option('--prefix', 'prefix', default='',
+              help='An input prefix to be trimmed from the beginning before a value is decrypted.')
 def decrypt(data, env, profile, prefix):
     kms_key_provider = get_key_provider(None, profile)
     if env is not None:
@@ -68,10 +69,13 @@ def decrypt(data, env, profile, prefix):
     click.echo(decrypt_value(data, prefix, kms_key_provider))
 
 
-@main.command('decrypt-json', help='Accepts a JSON map in STDIN (or a file provided in the INPUT parameter) and decrypts base64-encoded map values inside of it.')
+@main.command('decrypt-json',
+              help='Accepts a JSON map in STDIN (or a file provided in the INPUT parameter) and '
+                   'decrypts base64-encoded map values inside of it.')
 @click.argument('input', type=click.File('rb'), default=sys.stdin)
 @click.option('--profile', 'profile', default=None, help='Name of an AWS CLI profile to be used when contacting AWS.')
-@click.option('--prefix', 'prefix', default='', help='An input prefix to be trimmed from the beginning before a value is decrypted.')
+@click.option('--prefix', 'prefix', default='',
+              help='An input prefix to be trimmed from the beginning before a value is decrypted.')
 def decrypt_json(input, profile, prefix):
     kms_key_provider = get_key_provider(None, profile)
     input_map = json.load(input)
