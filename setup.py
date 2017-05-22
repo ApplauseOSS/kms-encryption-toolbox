@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name='kms-encryption-toolbox',
-    version='0.0.4',
+    version='0.0.5',
     url='https://github.com/ApplauseOSS/kms-encryption-toolbox',
     license='Applause',
     description='Encryption toolbox to be used with the Amazon Key Management Service for securing your deployment secrets. It encapsulates the aws-encryption-sdk package to expose cmdline actions.',
@@ -21,6 +21,5 @@ setup(
             "kms-encryption = kmsencryption.__main__:main",
         ]
     },
-    scripts=["kmsencryption/scripts/decrypt-and-start.sh",
-             "kmsencryption/scripts/terraform-decrypt.sh"]
+    scripts=["kmsencryption/scripts/decrypt-and-start.sh"]
 )

@@ -2,7 +2,9 @@ import aws_encryption_sdk
 import base64
 import botocore.session
 import click
+import json
 import os
+import sys
 
 
 @click.group(context_settings={"help_option_names": ['-h', '--help']})
@@ -18,6 +20,17 @@ def get_key_provider(cmk_arn, profile):
     if profile is not None:
         kms_kwargs['botocore_session'] = botocore.session.Session(profile=profile)
     return aws_encryption_sdk.KMSMasterKeyProvider(**kms_kwargs)
+
+
+def decrypt_value(data, prefix, key_provider):
+    if data.startswith(prefix):
+        data = data[len(prefix):]
+
+    raw_data = base64.b64decode(data)
+    decrypted_plaintext, decryptor_header = aws_encryption_sdk.decrypt(
+        source=raw_data,
+        key_provider=key_provider)
+    return decrypted_plaintext
 
 
 @main.command(help='Encrypts data with a new data key and returns a base64-encoded result.')
@@ -52,14 +65,20 @@ def decrypt(data, env, profile, prefix):
     if not data:
         raise ValueError('No data provided via --data or in a variable name passed with --env')
 
-    if data.startswith(prefix):
-        data = data[len(prefix):]
+    click.echo(decrypt_value(data, prefix, kms_key_provider))
 
-    raw_data = base64.b64decode(data)
-    decrypted_plaintext, decryptor_header = aws_encryption_sdk.decrypt(
-        source=raw_data,
-        key_provider=kms_key_provider)
-    click.echo(decrypted_plaintext)
+
+@main.command('decrypt-json', help='Accepts a JSON map in STDIN (or a file provided in the INPUT parameter) and decrypts base64-encoded map values inside of it.')
+@click.argument('input', type=click.File('rb'), default=sys.stdin)
+@click.option('--profile', 'profile', default=None, help='Name of an AWS CLI profile to be used when contacting AWS.')
+@click.option('--prefix', 'prefix', default='', help='An input prefix to be trimmed from the beginning before a value is decrypted.')
+def decrypt_json(input, profile, prefix):
+    kms_key_provider = get_key_provider(None, profile)
+    input_map = json.load(input)
+    output = {}
+    for name, value in input_map.iteritems():
+        output[name] = decrypt_value(value, prefix, kms_key_provider)
+    click.echo(json.dumps(output))
 
 
 if __name__ == '__main__':

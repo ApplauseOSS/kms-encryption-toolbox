@@ -48,6 +48,21 @@ Package is available in the PyPI repo.
     --prefix TEXT   An input prefix to be trimmed from the beginning before a
                     value is decrypted.
     -h, --help      Show this message and exit.
+    
+### Decrypt a JSON map
+    
+    $ kms-encryption decrypt-json --help
+
+    Usage: kms-encryption decrypt-json [OPTIONS] [INPUT]
+
+    Accepts a JSON map passed via standard input (or a file provided in the INPUT parameter)
+    and decrypts base64-encoded map values inside of it.
+
+    Options:
+    --profile TEXT  Name of an AWS CLI profile to be used when contacting AWS.
+    --prefix TEXT   An input prefix to be trimmed from the beginning before a
+                    value is decrypted.
+    -h, --help      Show this message and exit.
 
 
 ## Use examples
@@ -62,9 +77,11 @@ Package is available in the PyPI repo.
     $ echo $DECRYPTED_VALUE
     This is some super secret string
     
+    $ echo "{\"value\": \"$ENCRYPTED_VALUE\"}" | kms-encryption decrypt-json --prefix "decrypt:")
+    {"value":"This is some super secret string"}
+    
 ## Additional scripts
     
-The library also exposes two Bash scripts helpful in automated deployments:
+The library also exposes an additional Bash script helpful in automated deployments:
 
 * `decrypt-and-start.sh` - Decrypts all the environment variables that start with `decrypt:` and saves the decrypted values in the same environment variables. Then it executes the passed parameters. This script can be used as an entrypoint in a Dockerfile.
-* `terraform-decrypt.sh` - a script that can be used with https://www.terraform.io/docs/providers/external/data_source.html for decrypting secrets in your Terraform infrastructure definitions.
