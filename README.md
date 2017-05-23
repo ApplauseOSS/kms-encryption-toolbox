@@ -85,3 +85,19 @@ Package is available in the PyPI repo.
 The library also exposes an additional Bash script helpful in automated deployments:
 
 * `decrypt-and-start.sh` - Decrypts all the environment variables that start with `decrypt:` and saves the decrypted values in the same environment variables. Then it executes the passed parameters. This script can be used as an entrypoint in a Dockerfile.
+
+## Troubleshooting
+
+If you fail to install the package with `pip` due to an error in compiling the `cryptography` package, you might need to install additional system dependencies. Instructions below:
+
+### CentOS
+
+    yum install -y gcc libffi-devel python-devel openssl-devel
+    
+### Debian/Ubuntu
+
+    apt-get install -y build-essential libssl-dev libffi-dev python-dev
+    
+### MacOS
+    
+Please make sure you have openssl installed (it should be as a part of system default packages).
