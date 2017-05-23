@@ -81,7 +81,7 @@ def decrypt_json(input, profile, prefix):
     input_map = json.load(input)
     output = {}
     for name, value in input_map.iteritems():
-        output[name] = decrypt_value(value, prefix, kms_key_provider) if name.startswith(prefix) else value
+        output[name] = decrypt_value(value, prefix, kms_key_provider) if value.startswith(prefix) else value
     click.echo(json.dumps(output))
 
 
