@@ -84,7 +84,7 @@ Package is available in the PyPI repo.
     
 The library also exposes an additional Bash script helpful in automated deployments:
 
-* `decrypt-and-start.sh` - Decrypts all the environment variables that start with `decrypt:` and saves the decrypted values in the same environment variables. Then it executes the passed parameters. This script can be used as an entrypoint in a Dockerfile.
+* `decrypt-and-start` - Decrypts all the environment variables that start with `decrypt:` and saves the decrypted values in the same environment variables. Then it executes the passed parameters. This script can be used as an entrypoint in a Dockerfile.
 
 ## Troubleshooting
 
