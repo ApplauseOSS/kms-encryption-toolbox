@@ -50,7 +50,7 @@ def encrypt(cmk_arn, data, env, profile, prefix):
         source=data,
         key_provider=kms_key_provider)
     result = base64.b64encode(my_ciphertext)
-    click.echo(prefix + result.decode('utf-8')
+    click.echo(prefix + result.decode('utf-8'))
 
 
 @main.command(help='Decrypts a base64-encoded data.')
