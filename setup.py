@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name='kms-encryption-toolbox',
-    version='0.0.10',
+    version='0.0.11',
     url='https://github.com/ApplauseOSS/kms-encryption-toolbox',
     license='Applause',
     description='Encryption toolbox to be used with the Amazon Key Management Service for securing your deployment secrets. It encapsulates the aws-encryption-sdk package to expose cmdline actions.',
