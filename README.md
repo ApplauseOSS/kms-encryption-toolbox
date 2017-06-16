@@ -63,6 +63,23 @@ Package is available in the PyPI repo.
     --prefix TEXT   An input prefix to be trimmed from the beginning before a
                     value is decrypted.
     -h, --help      Show this message and exit.
+    
+    
+### Encrypt a JSON map
+    
+    $ kms-encryption encrypt-json --help
+    
+    Usage: kms-encryption encrypt-json [OPTIONS] [INPUT]
+
+    Accepts a JSON map in STDIN (or a file provided in the INPUT parameter)
+    and encrypts values inside of it then saves base64-encoded.
+
+    Options:
+    --cmk-arn TEXT  ARN of an existing Customer Master Key in KMS
+    --profile TEXT  Name of an AWS CLI profile to be used when contacting AWS.
+    --prefix TEXT   An output prefix to be added to the beginning of an
+                  encrypted value.
+    -h, --help      Show this message and exit.
 
 
 ## Use examples

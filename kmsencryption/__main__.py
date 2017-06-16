@@ -33,6 +33,13 @@ def decrypt_value(data, prefix, key_provider):
     return decrypted_plaintext
 
 
+def encrypt_value(data, prefix, key_provider):
+    ciphertext, encryptor_header = aws_encryption_sdk.encrypt(
+        source=data,
+        key_provider=key_provider)
+    return prefix + base64.b64encode(ciphertext).decode('utf-8')
+
+
 @main.command(help='Encrypts data with a new data key and returns a base64-encoded result.')
 @click.option('--cmk-arn', 'cmk_arn', prompt=True, help='ARN of an existing Customer Master Key in KMS')
 @click.option('--data', 'data', envvar='DATA', help='Data to be encrypted. Use to pass it as a named argument.')
@@ -46,11 +53,7 @@ def encrypt(cmk_arn, data, env, profile, prefix):
     if not data:
         raise ValueError('No data provided via --data or in a variable name passed with --env')
 
-    my_ciphertext, encryptor_header = aws_encryption_sdk.encrypt(
-        source=data,
-        key_provider=kms_key_provider)
-    result = base64.b64encode(my_ciphertext)
-    click.echo(prefix + result.decode('utf-8'))
+    click.echo(encrypt_value(data, prefix, kms_key_provider))
 
 
 @main.command(help='Decrypts a base64-encoded data.')
@@ -82,6 +85,23 @@ def decrypt_json(input, profile, prefix):
     output = {}
     for name, value in input_map.iteritems():
         output[name] = decrypt_value(value, prefix, kms_key_provider) if value.startswith(prefix) else value
+    click.echo(json.dumps(output))
+
+
+@main.command('encrypt-json',
+              help='Accepts a JSON map in STDIN (or a file provided in the INPUT parameter) and '
+                   'encrypts values inside of it then saves base64-encoded.')
+@click.argument('input', type=click.File('rb'), default=sys.stdin)
+@click.option('--cmk-arn', 'cmk_arn', prompt=True, help='ARN of an existing Customer Master Key in KMS')
+@click.option('--profile', 'profile', default=None, help='Name of an AWS CLI profile to be used when contacting AWS.')
+@click.option('--prefix', 'prefix', default='',
+              help='An output prefix to be added to the beginning of an encrypted value.')
+def encrypt_json(input, cmk_arn, profile, prefix):
+    kms_key_provider = get_key_provider(cmk_arn, profile)
+    input_map = json.load(input)
+    output = {}
+    for name, value in input_map.iteritems():
+        output[name] = encrypt_value(value, prefix, kms_key_provider)
     click.echo(json.dumps(output))
 
 
