@@ -1,8 +1,8 @@
 
+from kmsencryption import lib
+
 import click
 import sys
-
-from kmsencryption import lib
 
 
 @click.group(context_settings={"help_option_names": ['-h', '--help']})

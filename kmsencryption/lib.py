@@ -4,6 +4,7 @@ import botocore.session
 import json
 import os
 
+
 def get_key_provider(cmk_arn, profile):
     if cmk_arn:
         kms_kwargs = dict(key_ids=[cmk_arn])
