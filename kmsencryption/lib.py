@@ -1,3 +1,4 @@
+from builtins import str as text
 from future.utils import iteritems
 from future.utils import string_types
 
@@ -61,7 +62,9 @@ def decrypt_object(input_object, prefix, key_provider):
         return input_object
     if isinstance(input_object, string_types):
         output = decrypt_value(input_object, prefix, key_provider) if input_object.startswith(prefix) else input_object
-        return output.decode('utf-8')
+        if isinstance(output, bytes):
+            return output.decode('utf-8')
+        return text(output)
     if isinstance(input_object, dict):
         output = {}
         for name, value in iteritems(input_object):
