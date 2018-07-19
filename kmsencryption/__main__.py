@@ -32,7 +32,7 @@ def decrypt(data, env, profile, prefix):
 
 @main.command('decrypt-json',
               help='Accepts a JSON map in STDIN (or a file provided in the INPUT parameter) and '
-                   'decrypts base64-encoded map values inside of it.')
+                   'decrypts base64-encoded string values inside of it.')
 @click.argument('input', type=click.File('rb'), default=sys.stdin)
 @click.option('--profile', 'profile', default=None, help='Name of an AWS CLI profile to be used when contacting AWS.')
 @click.option('--prefix', 'prefix', default='',
