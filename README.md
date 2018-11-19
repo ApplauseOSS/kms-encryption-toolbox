@@ -1,4 +1,6 @@
 # kms-encryption-toolbox
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FApplauseOSS%2Fkms-encryption-toolbox.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FApplauseOSS%2Fkms-encryption-toolbox?ref=badge_shield)
+
 Encryption toolbox to be used with the Amazon Key Management Service for securing your deployment secrets.
 It encapsulates the `aws-encryption-sdk` package to expose cmdline actions. For both `encrypt` and `decrypt` actions,
 the library requests a new data key from KMS and encrypts it with the Customer Master Key. This encryption happens server-side and is performed by Amazon.
@@ -118,3 +120,7 @@ If you fail to install the package with `pip` due to an error in compiling the `
 ### MacOS
     
 Please make sure you have openssl installed (it should be as a part of system default packages).
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FApplauseOSS%2Fkms-encryption-toolbox.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FApplauseOSS%2Fkms-encryption-toolbox?ref=badge_large)
