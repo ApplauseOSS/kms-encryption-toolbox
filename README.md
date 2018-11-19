@@ -64,6 +64,9 @@ Package is available in the PyPI repo.
     --profile TEXT  Name of an AWS CLI profile to be used when contacting AWS.
     --prefix TEXT   An input prefix to be trimmed from the beginning before a
                     value is decrypted.
+    --allow-partial If partially encrypted string values inside JSON are
+                    allowed. Substrings to decrypt are identified by the
+                    starting prefix and end with a whitespace or end of string.                
     -h, --help      Show this message and exit.
     
     

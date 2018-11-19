@@ -57,31 +57,54 @@ def decrypt(data, env, profile, prefix):
     return decrypt_value(data, prefix, key_provider)
 
 
-def decrypt_object(input_object, prefix, key_provider):
+def extract_encrypted_part(input_object, prefix):
+    start_index = input_object.find(prefix)
+    end_index = input_object.find(' ', start_index)
+    return start_index, end_index if end_index > 0 else len(input_object)
+
+
+def construct_decrypted(input_object, decrypted_value, start, end):
+    return input_object[0:start] + decrypted_value + input_object[end:]
+
+
+def fix_encoding(input):
+    if isinstance(input, bytes):
+        return input.decode('utf-8')
+    return text(input)
+
+
+def decrypt_object(input_object, prefix, key_provider, allow_partial):
     if not input_object:
         return input_object
     if isinstance(input_object, string_types):
-        output = decrypt_value(input_object, prefix, key_provider) if input_object.startswith(prefix) else input_object
-        if isinstance(output, bytes):
-            return output.decode('utf-8')
-        return text(output)
+        output = input_object
+        if prefix in input_object:
+            if allow_partial:
+                start, end = extract_encrypted_part(input_object, prefix)
+                partial_output = decrypt_value(input_object[start:end], prefix, key_provider)
+                partial_output = fix_encoding(partial_output)
+                output = construct_decrypted(input_object, partial_output, start, end)
+            elif input_object.startswith(prefix):
+                output = decrypt_value(input_object, prefix, key_provider)
+        return fix_encoding(output)
+        
     if isinstance(input_object, dict):
         output = {}
         for name, value in iteritems(input_object):
-            output[name] = decrypt_object(value, prefix, key_provider)
+            output[name] = decrypt_object(value, prefix, key_provider, allow_partial)
         return output
     if isinstance(input_object, list):
         output = []
         for value in input_object:
-            output.append(decrypt_object(value, prefix, key_provider))
+            output.append(decrypt_object(value, prefix, key_provider, allow_partial))
         return output
     return input_object
 
 
-def decrypt_json(json_input, profile, prefix):
+def decrypt_json(json_input, profile, prefix, allow_partial):
     key_provider = get_key_provider(None, profile)
     input_object = json.load(json_input)
-    output = decrypt_object(input_object, prefix, key_provider)
+    output = decrypt_object(input_object, prefix, key_provider, allow_partial)
     return json.dumps(output)
 
 

@@ -17,4 +17,3 @@ decrypted_plaintext, decryptor_header = aws_encryption_sdk.decrypt(
 
 assert my_plaintext == decrypted_plaintext.decode('ascii')
 assert encryptor_header.encryption_context == decryptor_header.encryption_context
-
