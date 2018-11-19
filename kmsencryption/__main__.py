@@ -37,8 +37,11 @@ def decrypt(data, env, profile, prefix):
 @click.option('--profile', 'profile', default=None, help='Name of an AWS CLI profile to be used when contacting AWS.')
 @click.option('--prefix', 'prefix', default='',
               help='An input prefix to be trimmed from the beginning before a value is decrypted.')
-def decrypt_json(input, profile, prefix):
-    click.echo(lib.decrypt_json(input, profile, prefix))
+@click.option('--allow-partial', default=False, is_flag=True,
+              help='If partially encrypted string values inside JSON are allowed. Substrings to decrypt are ' +
+              'identified by the starting prefix and end with a whitespace or end of string.')
+def decrypt_json(input, profile, prefix, allow_partial):
+    click.echo(lib.decrypt_json(input, profile, prefix, allow_partial))
 
 
 @main.command('encrypt-json',
