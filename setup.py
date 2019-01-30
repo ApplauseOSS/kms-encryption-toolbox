@@ -5,10 +5,10 @@ setup(
     name='kms-encryption-toolbox',
     version='0.1.3',
     url='https://github.com/ApplauseOSS/kms-encryption-toolbox',
-    license='Applause',
+    license='MIT',
     description='Encryption toolbox to be used with the Amazon Key Management Service for securing your deployment secrets. It encapsulates the aws-encryption-sdk package to expose cmdline actions.',
-    author='Applause',
-    author_email='architecture@applause.com',
+    author='Applause App Quality, Inc.',
+    author_email='ops@applause.com',
     zip_safe=False,
     packages=['kmsencryption'],
     install_requires=[
