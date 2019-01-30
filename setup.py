@@ -1,5 +1,14 @@
 from setuptools import find_packages
 from setuptools import setup
+from setuptools.command.upload import upload
+import os
+
+class ReleaseToPyPICommand(upload):
+
+    def finalize_options(self):
+        self.repository = os.environ['PYPI_URL']
+        self.username = os.environ['PYPI_USERNAME']
+        self.password = os.environ['PYPI_PASSWORD']
 
 setup(
     name='kms-encryption-toolbox',
@@ -23,5 +32,8 @@ setup(
             "kms-encryption = kmsencryption.__main__:main",
         ]
     },
-    scripts=["kmsencryption/scripts/decrypt-and-start"]
+    scripts=["kmsencryption/scripts/decrypt-and-start"],
+    cmdclass={
+        'release_to_pypi': ReleaseToPyPICommand
+    }
 )
