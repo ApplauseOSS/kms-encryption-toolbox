@@ -12,7 +12,7 @@ class ReleaseToPyPICommand(upload):
 
 setup(
     name='kms-encryption-toolbox',
-    version='0.1.4',
+    version='0.1.5',
     url='https://github.com/ApplauseOSS/kms-encryption-toolbox',
     license='MIT',
     description='Encryption toolbox to be used with the Amazon Key Management Service for securing your deployment secrets. It encapsulates the aws-encryption-sdk package to expose cmdline actions.',
