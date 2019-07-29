@@ -1,15 +1,21 @@
-#!/usr/bin/env bash
+#!/usr/bin/env python
 
-set -e
+import os
+import sys
 
-ENV_VARS=$(env)
-for KVP in $ENV_VARS; do
-  NAME=$(echo ${KVP} | cut -d '=' -f 1)
-  VALUE=$(echo ${KVP} | cut -d '=' -f 2-)
-  if [[ "${VALUE}" == decrypt:* ]]; then
-    echo "Decrypting the value of ${NAME}..."
-    export "${NAME}"="$(kms-encryption decrypt --env "${NAME}" --prefix "decrypt:")"
-  fi
-done
+from kmsencryption import lib
 
-exec "$@"
+
+def main():
+    for key, value in os.environ.items():
+        if value.startswith('decrypt:'):
+            print('Decrypting the value of %s...' % key)
+            # The decode('utf-8') is needed for py3 compatability
+            os.environ[key] = lib.decrypt(value, None, None, 'decrypt:').decode('utf-8')
+    # Execute program specified on commandline
+    sys.stdout.flush()
+    os.execvp(sys.argv[1], sys.argv[1:])
+
+
+if __name__ == '__main__':
+    main()
