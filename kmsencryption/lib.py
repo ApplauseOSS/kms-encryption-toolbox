@@ -87,7 +87,7 @@ def decrypt_object(input_object, prefix, key_provider, allow_partial):
             elif input_object.startswith(prefix):
                 output = decrypt_value(input_object, prefix, key_provider)
         return fix_encoding(output)
-        
+
     if isinstance(input_object, dict):
         output = {}
         for name, value in iteritems(input_object):
