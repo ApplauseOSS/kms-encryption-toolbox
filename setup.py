@@ -24,7 +24,7 @@ setup(
         'cffi>=1.10.0',
         'aws-encryption-sdk>=1.2.0,<2.0',
         'click>=6.6',
-        'cryptography>=1.8.1',
+        'cryptography>=1.8.1,!=3.4',
         'future>=0.16.0'
     ],
     entry_points={
