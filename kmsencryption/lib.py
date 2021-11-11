@@ -77,7 +77,12 @@ def construct_decrypted(input_object, decrypted_value, start, end):
 
 def fix_encoding(input):
     if isinstance(input, bytes):
-        return input.decode('utf-8')
+        try:
+            return input.decode('utf-8')
+        except UnicodeDecodeError:
+            # Binary data can apparently be represented in a string using 'latin1'
+            # encoding, so here we are
+            return input.decode('latin1')
     return text(input)
 
 
