@@ -20,6 +20,8 @@ def get_key_provider(cmk_arn, profile):
 
 
 def decrypt_value(data, prefix, key_provider):
+    if isinstance(data, bytes):
+        prefix = bytes(prefix, 'utf-8')
     if data.startswith(prefix):
         data = data[len(prefix):]
 
@@ -37,20 +39,26 @@ def encrypt_value(data, prefix, key_provider):
     return prefix + base64.b64encode(ciphertext).decode('utf-8')
 
 
-def encrypt(cmk_arn, data, env, profile, prefix):
+def encrypt(cmk_arn, data, env, path, profile, prefix):
     key_provider = get_key_provider(cmk_arn, profile)
     if env is not None:
         data = os.getenv(env, data)
+    if path is not None:
+        with open(path, "rb") as in_file:
+            data = in_file.read()
     if not data:
         raise ValueError('No data provided via --data or in a variable name passed with --env')
 
     return encrypt_value(data, prefix, key_provider)
 
 
-def decrypt(data, env, profile, prefix):
+def decrypt(data, env, path, profile, prefix):
     key_provider = get_key_provider(None, profile)
     if env is not None:
         data = os.getenv(env, data)
+    if path is not None:
+        with open(path, "rb") as in_file:
+            data = in_file.read()
     if not data:
         raise ValueError('No data provided via --data or in a variable name passed with --env')
 

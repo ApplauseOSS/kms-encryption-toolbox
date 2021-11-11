@@ -14,20 +14,23 @@ def main():
 @click.option('--cmk-arn', 'cmk_arn', prompt=True, help='ARN of an existing Customer Master Key in KMS')
 @click.option('--data', 'data', envvar='DATA', help='Data to be encrypted. Use to pass it as a named argument.')
 @click.option('--env', 'env', help='Name of an environment variable that contains data to be encrypted.')
+@click.option('--file', 'path', help='Path to a file to be encrypted')
 @click.option('--profile', 'profile', default=None, help='Name of an AWS CLI profile to be used when contacting AWS.')
 @click.option('--prefix', 'prefix', default='', help='An output prefix to be added to the generated result.')
-def encrypt(cmk_arn, data, env, profile, prefix):
-    click.echo(lib.encrypt(cmk_arn, data, env, profile, prefix))
+def encrypt(cmk_arn, data, env, path, profile, prefix):
+    click.echo(lib.encrypt(cmk_arn, data, env, path, profile, prefix))
 
 
 @main.command(help='Decrypts a base64-encoded data.')
 @click.option('--data', 'data', envvar='DATA', help='Data to be decrypted. Use to pass it as a named argument.')
 @click.option('--env', 'env', help='Name of an environment variable that contains data to be decrypted.')
+@click.option('--file', 'path', help='Path to a file to be decrypted')
 @click.option('--profile', 'profile', default=None, help='Name of an AWS CLI profile to be used when contacting AWS.')
 @click.option('--prefix', 'prefix', default='',
               help='An input prefix to be trimmed from the beginning before a value is decrypted.')
-def decrypt(data, env, profile, prefix):
-    click.echo(lib.decrypt(data, env, profile, prefix))
+@click.option('--no-newline', 'no_newline', is_flag=True, default=False, help='Disable implicit newline for decrypted output')
+def decrypt(data, env, path, profile, prefix, no_newline):
+    click.echo(lib.decrypt(data, env, path, profile, prefix), nl=(False if no_newline else True))
 
 
 @main.command('decrypt-json',
