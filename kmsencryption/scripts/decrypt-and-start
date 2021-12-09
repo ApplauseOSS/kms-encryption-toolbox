@@ -11,7 +11,7 @@ def main():
         if value.startswith('decrypt:'):
             print('Decrypting the value of %s...' % key)
             # The decode('utf-8') is needed for py3 compatability
-            os.environ[key] = lib.decrypt(value, None, None, 'decrypt:').decode('utf-8')
+            os.environ[key] = lib.decrypt(value, None, None, None, 'decrypt:').decode('utf-8')
     # Execute program specified on commandline
     sys.stdout.flush()
     os.execvp(sys.argv[1], sys.argv[1:])
