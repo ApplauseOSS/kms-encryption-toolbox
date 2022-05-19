@@ -10,13 +10,15 @@ import os
 
 
 def get_key_provider(cmk_arn, profile):
+    cls = aws_encryption_sdk.StrictAwsKmsMasterKeyProvider
     if cmk_arn:
         kms_kwargs = dict(key_ids=[cmk_arn])
     else:
         kms_kwargs = dict()
+        cls = aws_encryption_sdk.DiscoveryAwsKmsMasterKeyProvider
     if profile is not None:
         kms_kwargs['botocore_session'] = botocore.session.Session(profile=profile)
-    return aws_encryption_sdk.KMSMasterKeyProvider(**kms_kwargs)
+    return cls(**kms_kwargs)
 
 
 def decrypt_value(data, prefix, key_provider):
@@ -26,14 +28,20 @@ def decrypt_value(data, prefix, key_provider):
         data = data[len(prefix):]
 
     raw_data = base64.b64decode(data)
-    decrypted_plaintext, decryptor_header = aws_encryption_sdk.decrypt(
+    client = aws_encryption_sdk.EncryptionSDKClient(
+        commitment_policy=aws_encryption_sdk.CommitmentPolicy.FORBID_ENCRYPT_ALLOW_DECRYPT,
+    )
+    decrypted_plaintext, decryptor_header = client.decrypt(
         source=raw_data,
         key_provider=key_provider)
     return decrypted_plaintext
 
 
 def encrypt_value(data, prefix, key_provider):
-    ciphertext, encryptor_header = aws_encryption_sdk.encrypt(
+    client = aws_encryption_sdk.EncryptionSDKClient(
+        commitment_policy=aws_encryption_sdk.CommitmentPolicy.FORBID_ENCRYPT_ALLOW_DECRYPT,
+    )
+    ciphertext, encryptor_header = client.encrypt(
         source=data,
         key_provider=key_provider)
     return prefix + base64.b64encode(ciphertext).decode('utf-8')
