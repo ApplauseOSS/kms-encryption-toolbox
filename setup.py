@@ -1,18 +1,10 @@
 from setuptools import find_packages
 from setuptools import setup
-from setuptools.command.upload import upload
 import os
-
-class ReleaseToPyPICommand(upload):
-
-    def finalize_options(self):
-        self.repository = os.environ['PYPI_URL']
-        self.username = os.environ['PYPI_USERNAME']
-        self.password = os.environ['PYPI_PASSWORD']
 
 setup(
     name='kms-encryption-toolbox',
-    version='0.2.3',
+    version='0.2.4',
     url='https://github.com/ApplauseOSS/kms-encryption-toolbox',
     license='MIT',
     description='Encryption toolbox to be used with the Amazon Key Management Service for securing your deployment secrets. It encapsulates the aws-encryption-sdk package to expose cmdline actions.',
@@ -33,7 +25,4 @@ setup(
         ]
     },
     scripts=["kmsencryption/scripts/decrypt-and-start"],
-    cmdclass={
-        'release_to_pypi': ReleaseToPyPICommand
-    }
 )
