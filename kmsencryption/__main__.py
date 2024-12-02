@@ -41,7 +41,7 @@ def decrypt(data, env, path, profile, prefix, no_newline):
 @click.option('--prefix', 'prefix', default='',
               help='An input prefix to be trimmed from the beginning before a value is decrypted.')
 @click.option('--allow-partial', default=False, is_flag=True,
-              help='If partially encrypted string values inside JSON are allowed. Substrings to decrypt are ' +
+              help='If partially encrypted string values inside JSON are allowed. Substrings to decrypt are '
               'identified by the starting prefix and end with a whitespace or end of string.')
 def decrypt_json(input, profile, prefix, allow_partial):
     click.echo(lib.decrypt_json(input, profile, prefix, allow_partial))
